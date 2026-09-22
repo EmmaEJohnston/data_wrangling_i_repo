@@ -133,6 +133,16 @@ pulse_df =
 pulse_df = janitor::clean_names(pulse_df)
 ```
 
+What is so bad about 'read.csv()'?? 
+Import pups with 'read.csv()'
+DON'T use. Lazy about variable names, super slow for big data sets. Also veryyy long. shows you everything.  
+
+```{r}
+pups_df_base = 
+  read.csv("data_import_examples/FAS_pups.csv")
+
+pups_df_base
+```
 
 
 
