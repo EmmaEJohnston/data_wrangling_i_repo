@@ -6,6 +6,7 @@ This file is for doing data import.
 ``` r
 library(tidyverse)
 library(readxl)
+library(haven)
 ```
 
 How to specify where a file is: \* absolute path: start far away, line
@@ -285,3 +286,19 @@ tt_df
     ## 1 Elf       331   513
     ## 2 Hobbit      0  2463
     ## 3 Man       401  3589
+
+If you open a microsoft doc (Excel or word) while in repo, it will ask
+you to commit. Don’t! Just close the file and it will go away.
+
+# Import SAS files
+
+Use the haven library
+
+Read in the PULSE dataset.
+
+``` r
+pulse_df =
+  read_sas("data_import_examples/public_pulse_data.sas7bdat")
+
+pulse_df = janitor::clean_names(pulse_df)
+```
