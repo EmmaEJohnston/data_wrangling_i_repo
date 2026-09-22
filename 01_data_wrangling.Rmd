@@ -3,3 +3,67 @@ title: "Data Import"
 output: github_document
 ---
 
+This file is for doing data import. 
+
+```{r message = F}
+library(tidyverse)
+```
+
+How to specify where a file is: 
+* absolute path: start far away, line by line, say where exactly the file is
+* relative path: relative to where you are right now, where is file 
+  * always use relative paths 
+
+# Import our data 
+
+Import our first data set. 
+
+```{r}
+litters_df = 
+  read_csv(file = "data_import_examples/FAS_litters.csv", skip = 0)
+
+litters_df = janitor::clean_names(litters_df)
+```
+Go back to look at OG data set, they used both NA and . to indicate missing values. First, use janitor::clean_names(df) to clean up data names. Janitor package - don't need to load it all with library, you just use this function so you can just load the clean names function. 
+
+Import your second dataset. 
+
+```{r}
+pups_df = 
+  read_csv(file = "data_import_examples/FAS_pups.csv", skip = 3)
+
+pups_df = janitor::clean_names(pups_df) 
+```
+
+Can also skip writing file at beginning of parentheses (it expects this). Skip importing first three lines of data from pups dataset, because they're blank. 
+
+Since you're setting the janitor function equal to the df, you're permanently altering the file. 
+
+# Look at the data 
+
+```{r}
+litters_df
+pups_df
+```
+
+Head or tail 
+
+```{r}
+head(litters_df, 20)
+
+tail(pups_df, 5)
+```
+Looking at specified number of rows at head or tail of dataset. 
+
+Skimming?
+
+```{r}
+skimr::skim(pups_df)
+```
+This skims the file and give you an overview. 
+Saying `view(name of dataset)` in console will help you view dataset in R. Don't put in rmd because when you knit, you'll get a pop up window. 
+
+
+
+
+
