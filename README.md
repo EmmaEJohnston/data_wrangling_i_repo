@@ -1,5 +1,5 @@
-# data_wrangling_i_repo
+# Data Wrangling I 
 
 Emma Johnston 
 
-This is code from class on the first session of data wrangling. This is about data import. 
+This is code from in class for data wrangling. The first session is about data import. 
