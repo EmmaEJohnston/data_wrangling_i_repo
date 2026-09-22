@@ -20,7 +20,9 @@ Import our first data set.
 
 ```{r}
 litters_df = 
-  read_csv(file = "data_import_examples/FAS_litters.csv", skip = 0)
+  read_csv(file = "data_import_examples/FAS_litters.csv", 
+           na = c("", ".", "NA")
+           )
 
 litters_df = janitor::clean_names(litters_df)
 ```
@@ -30,7 +32,10 @@ Import your second dataset.
 
 ```{r}
 pups_df = 
-  read_csv(file = "data_import_examples/FAS_pups.csv", skip = 3)
+  read_csv(file = "data_import_examples/FAS_pups.csv", 
+           skip = 3, 
+           na = c("", ".", "NA")
+        )
 
 pups_df = janitor::clean_names(pups_df) 
 ```
@@ -62,6 +67,18 @@ skimr::skim(pups_df)
 ```
 This skims the file and give you an overview. 
 Saying `view(name of dataset)` in console will help you view dataset in R. Don't put in rmd because when you knit, you'll get a pop up window. 
+
+Don't use read.csv, only use read_csv (the new and improved version) 
+
+look at ?read_csv, you'll see what you can do within the function, including na = c("", "NA"), (that excludes the data that is blank or says NA)
+
+# Fixing the missing data in dataframes 
+Just go back to OG load and add line of `na = c("", ".", "NA")` and then re-run. This tells R to ignore those values (treat them as a missing value), rather than making the variable a character value. 
+
+# Oh excel... 
+
+
+
 
 
 
