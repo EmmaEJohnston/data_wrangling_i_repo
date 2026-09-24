@@ -98,6 +98,39 @@ In the pups dataset, keep only rows where PD walk is less than 11 and sex is 2
 filter(pups_df, pd_walk < 11, sex == 2)
 ```
 
+#Mutate to change some columns 
+
+Let's add and change some columns 
+
+```{r}
+mutate(litters_df, wt_gain = gd18_weight - gd0_weight)
+# creates a column in dataset, what is weight gain from beginning of pregnancy to right before birth
+# puts variable at tail end
+# does not change anything else 
+
+mutate(
+  litters_df, 
+  wt_gain = gd18_weight - gd0_weight, 
+  group = str_to_lower(group))
+
+# makes everything lowercase in group variable
+# modifies an already existing variable, overwrites and does not change anything else
+
+mutate(
+  litters_df, 
+  wt_gain = gd18_weight - gd0_weight, 
+  wt_gain_squared = wt_gain ^ 2,
+  group = str_to_lower(group))
+
+# modifies and creates variables at same time 
+```
+
+In the pups dataset, create a variable that subtracts 7 from PD walk 
+
+```{r}
+mutate(pups_df, pd_walk_minus_7 = pd_walk - 7)
+```
+
 
 
 
