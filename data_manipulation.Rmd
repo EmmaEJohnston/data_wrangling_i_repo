@@ -131,6 +131,15 @@ In the pups dataset, create a variable that subtracts 7 from PD walk
 mutate(pups_df, pd_walk_minus_7 = pd_walk - 7)
 ```
 
+## Arrange the data 
+
+```{r}
+arrange(litters_df, pups_born_alive)
+## rearrange so that they are in order of pups born alive 3 -> 4 -> 5 etc 
+
+arrange(litters_df, desc(pups_born_alive)) 
+## arrange in reverse order, descending order 
+```
 
 
 
