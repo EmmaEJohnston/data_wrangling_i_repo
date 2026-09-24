@@ -30,16 +30,15 @@ pups_df = janitor::clean_names(pups_df)
 
 ## Select some variables 
 Which data frame, and which variable columns are you selecting 
-can list the columns, or do this through that (:), the - will do everything except what you -
 GROUP = group renames that variable by itself (will also put it first), the everything says keep everything else
 
 ```{r}
 select(litters_df, group, litter_number)
-
+# can list the columns
 select(litters_df, group:gd_of_birth)
-
+# or do this through that (:)
 select(litters_df, -pups_survive)
-
+# - will do everything except what you -
 select(litters_df, -group)
 
 select(litters_df, starts_with("gd"))
@@ -135,11 +134,102 @@ mutate(pups_df, pd_walk_minus_7 = pd_walk - 7)
 
 ```{r}
 arrange(litters_df, pups_born_alive)
-## rearrange so that they are in order of pups born alive 3 -> 4 -> 5 etc 
+## rearrange so that they are in order of pups born alive 3 -> 4 -> 5 etc, missing values always go to bottom 
 
 arrange(litters_df, desc(pups_born_alive)) 
 ## arrange in reverse order, descending order 
 ```
+
+## Let's do multiple steps 
+
+Do NOT do this: too many variables in environment. do not want to create sub datasets 
+```{r}
+litters_df = read_csv("data_import_examples/FAS_litters.csv", na = c("", "NA", "."))
+litters_rename_df = janitor::clean_names(litters_df)
+litters_with_gd_df = select(litters_rename_df, group, starts_with("gd"))
+litters_no_na_df = drop_na(litters_with_gd_df)
+litters_wt_gain_df = mutate(litters_no_na_df, wt_gain = gd18_weight - gd0_weight)
+```
+
+It is even worse to nest. Very confusing. 
+
+Instead: 
+
+```{r}
+litters_df = 
+  read_csv("data_import_examples/FAS_litters.csv", na = c("", "NA", ".")) |> 
+  janitor:: clean_names() |> 
+  select(group, starts_with("gd")) |> 
+  drop_na() |> 
+  mutate(
+    wt_gain = gd18_weight - gd0_weight, 
+    group = str_to_lower(group)
+  )
+```
+
+Load pups, clean names, drop missing, keep litter number and pd variables, add pd walk - 7 
+
+```{r}
+pups_df = 
+  read_csv("data_import_examples/FAS_pups.csv", skip = 3, na = c("", "NA", ".")) |> 
+  janitor::clean_names() |> 
+  drop_na() |> 
+  select(litter_number, starts_with("pd")) |> 
+  mutate(
+    pd_walk_minus_7 = pd_walk - 7
+  )
+```
+
+Sometimes the first thing isn't a dataframe 
+lm = linear model
+Take this thing, have to use data = _ as a placeholder for litters_df, you could also do litters_df instead of _
+
+```{r}
+litters_df |> 
+  filter(group %in% c("con7", "con8")) |> 
+  lm(gd18_weight ~ gd0_weight, data = _)
+```
+
+Select vs. Pull 
+```{r}
+litters_df |> 
+  select(group)
+
+#Select will always give you a dataframe. 
+
+litters_df |> 
+  pull(group)
+
+litters_df |> 
+  filter(group %in% c("Con7", "Con8")) |> 
+  pull(group)
+
+# this creates a vector, not a df. 
+# Almost never do this 
+```
+
+Never do $
+
+```{r}
+litters_df$group
+# does same thing as pull 
+# do not do this, keep stuff in dataframe, gets confusing. 
+# Better to mutate within the dataframe 
+```
+
+Pipes and Viewing 
+
+```{r}
+litters_df |> 
+  filter(group %in% c("Con7", "Con8")) |> 
+ # view()
+
+#This will pop out a separate window to see df
+# DELETE this step, do not include in Rmd code. can do it along the way to double check. 
+# Can also do in console 
+```
+
+
 
 
 
