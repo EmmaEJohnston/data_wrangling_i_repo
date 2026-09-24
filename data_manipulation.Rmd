@@ -5,4 +5,66 @@ date: "2026-09-24"
 output: github_document
 ---
 
+This file is for doing data manipulation. 
+
+```{r message = F}
+library(tidyverse)
+```
+
+Load the litters and pups datasets. 
+
+```{r}
+litters_df = 
+  read_csv("data_import_examples/FAS_litters.csv", 
+           na = c("", "NA", "."))
+
+litters_df = janitor::clean_names(litters_df)
+
+pups_df = 
+  read_csv("data_import_examples/FAS_pups.csv", 
+           skip = 3,
+           na = c("", "NA", "."))
+
+pups_df = janitor::clean_names(pups_df)
+```
+
+## Select some variables 
+Which data frame, and which variable columns are you selecting 
+can list the columns, or do this through that (:), the - will do everything except what you -
+GROUP = group renames that variable by itself (will also put it first), the everything says keep everything else
+
+```{r}
+select(litters_df, group, litter_number)
+
+select(litters_df, group:gd_of_birth)
+
+select(litters_df, -pups_survive)
+
+select(litters_df, -group)
+
+select(litters_df, starts_with("gd"))
+
+select(litters_df, starts_with("gd"), group)
+
+select(litters_df, GROUP = group, everything())
+
+select(litters_df, -starts_with("gd"))
+```
+
+A couple alternatives 
+```{r}
+rename(litters_df, GROUP = group)
+#Same thing as above except you don't have to tell it to keep everything else 
+
+relocate(litters_df, litter_number, gd0_weight)
+# relocate moves litter_number first, gd0_weight second (based off list order)
+```
+
+
+In the pups data, select litter number, sex, and PD ears: 
+
+```{r}
+select(pups_df, litter_number, sex, pd_ears)
+```
+
 
