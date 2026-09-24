@@ -225,8 +225,8 @@ litters_df |>
  # view()
 
 #This will pop out a separate window to see df
-# DELETE this step, do not include in Rmd code. can do it along the way to double check. 
-# Can also do in console 
+#DELETE this step, do not include in Rmd code. can do it along the way to double check  
+#Can also do in console
 ```
 
 
