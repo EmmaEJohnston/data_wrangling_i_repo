@@ -1,0 +1,78 @@
+---
+title: "Tidy Data Notes"
+author: "Emma"
+date: "2026-09-29"
+output: github_document
+---
+##Notes 
+```{r message = F}
+library(tidyverse)
+```
+
+
+```{r}
+data("mtcars")
+```
+
+```{r}
+mtcars$mpg
+
+mtcars$mpg = 1 
+# this pulls something out and manipulates the whole data set. don't do this 
+```
+
+```{r}
+pull(mtcars, mpg) 
+# if you have take something out, use pull function like this because it won't let you edit whole dataset
+```
+
+```{r}
+mtcars |> 
+  select(mpg:disp) 
+
+#be careful when loading multiple libraries. they could use the same words for different functions, and R will remember the most recently loaded library. to avoid this, add which package from the library you're using: 
+
+mtcars |> 
+  dplyr::select(mpg:disp)
+```
+
+#Tidy data 
+Rules for tidy data: 
+* data tables have an implied structure which the "tidy data" framework makes explicit 
+** Columns are variables 
+** Rows are observations 
+** every value has a cell 
+
+Why tidy your data?
+* consistent data structures will simplify your thought process 
+** especially true if you use tools designed to tidy data 
+* data written for computers is easier to work with 
+
+Not all data are tidy: 
+* columns are values not variable names 
+* single columns contain multiple variables 
+* data stored in multiple tables 
+WATCH OUT FOR THESE! 
+
+Relational data 
+* data spread across tables with defined relations 
+* variables used to define these relations are *keys*
+* tables are combined by *joins* 
+
+Join types 
+* joining datasets x and y 
+** mostly use left joins and full joins (both outer joins)
+
+Key functions 
+* For tidying single tables 
+** pivot_longer --> easier to read as computer 
+** separate (separate column into two separate columns) 
+
+* for untidying single tables:
+** pivot_wider --> easier to read as human
+
+* For combining multiple tables 
+** bind_rows
+** *_join --> whichever join you're doing 
+
+
