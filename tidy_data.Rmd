@@ -122,6 +122,43 @@ lotr_df =
 ```
 binding rows stacks rows on top of each other. relocate movie column to far left. pivot longer to tidy data. 
 
+# Join FAS datasets (bring data from one dataset into another dataset) 
+
+```{r}
+pups_df = 
+  read_csv(
+    "data_import_examples/FAS_pups.csv", 
+    skip = 3, 
+    na = c("", ".", "NA")) |> 
+  janitor::clean_names() |> 
+  mutate(
+    sex = case_match(
+      sex, 
+      1 ~ "male", 
+      2 ~ "female"
+    ) # renaming values from 1/2 to male/female in df 
+  )
+
+litters_df = 
+  read_csv(
+    "data_import_examples/FAS_litters.csv", 
+    na = c("", ".", "NA")) |> 
+  janitor::clean_names() |> 
+  relocate(litter_number) |> 
+  separate(group, into = c("dose", "day_of_tx"), 3) |> 
+  mutate(
+    dose = str_to_lower(dose), 
+    day_of_tx = as.numeric(day_of_tx), 
+    gd_weight_gain = gd18_weight - gd0_weight
+  )
+  
+#which column are you separating, and what are you separating into. 3 is first three characters is where you split/separate variable name  
+
+fas_df =
+  left_join(pups_df, litters_df, by = "litter_number")
+```
+joining stuff from litters df into pups df. litter number exists in both, so say by = to say which is ID variable (that's the point at which you combine). in this case, we're going to fix issues in pups and litters df separately, and then re-join because you might want to use pups and litters separately at some point. 
+
 
 
 
