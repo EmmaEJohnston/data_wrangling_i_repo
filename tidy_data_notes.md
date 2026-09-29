@@ -3,7 +3,7 @@ Tidy Data Notes
 Emma
 2026-09-29
 
-\##Notes
+## Notes
 
 ``` r
 library(tidyverse)
@@ -116,9 +116,11 @@ mtcars |>
     ## Maserati Bora         1   8 301.0
     ## Volvo 142E            1   4 121.0
 
-\#Tidy data Rules for tidy data: \* data tables have an implied
-structure which the “tidy data” framework makes explicit \*\* Columns
-are variables \*\* Rows are observations \*\* every value has a cell
+# Tidy data
+
+Rules for tidy data: \* data tables have an implied structure which the
+“tidy data” framework makes explicit \*\* Columns are variables \*\*
+Rows are observations \*\* every value has a cell
 
 Why tidy your data? \* consistent data structures will simplify your
 thought process \*\* especially true if you use tools designed to tidy

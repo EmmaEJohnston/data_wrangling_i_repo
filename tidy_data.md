@@ -86,3 +86,34 @@ Mutate - column names/columns need to be modified. Say which column am I
 working on, and what is the new name (we just replaced gd with gd). then
 list out cases and what you want to replace them with. Here we replace
 gd0_weight with 0.
+
+# Deliberately untidy data
+
+``` r
+analysis_df = 
+  tibble(
+    groups = c("treatment", "treatment", "placebo", "placebo"), 
+    time = c("pre", "post", "pre", "post"), 
+    mean_outcome = c(4, 8, 3.5, 4.6) 
+  )
+## this is a tidy way to show data. but if we were showing data to someone else, we might want to untidy for human readibility 
+```
+
+# Untidy our new df
+
+``` r
+analysis_df |> 
+  pivot_wider(
+    names_from = time, 
+    values_from = mean_outcome
+  ) |> 
+  knitr::kable() ## formats nice table for an Rmd doc 
+```
+
+| groups    | pre | post |
+|:----------|----:|-----:|
+| treatment | 4.0 |  8.0 |
+| placebo   | 3.5 |  4.6 |
+
+names come from time variable, giving you columns for pre and post. The
+values come from mean outcome column and go into this new column

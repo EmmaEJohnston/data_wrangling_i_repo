@@ -68,6 +68,61 @@ No names suffix, so use replace function to clean up variable names
 Mutate - column names/columns need to be modified. 
 Say which column am I working on, and what is the new name (we just replaced gd with gd). then list out cases and what you want to replace them with. Here we replace gd0_weight with 0. 
 
+# Deliberately untidy data 
+
+```{r}
+analysis_df = 
+  tibble(
+    groups = c("treatment", "treatment", "placebo", "placebo"), 
+    time = c("pre", "post", "pre", "post"), 
+    mean_outcome = c(4, 8, 3.5, 4.6) 
+  )
+## this is a tidy way to show data. but if we were showing data to someone else, we might want to untidy for human readibility 
+```
+
+# Untidy our new df 
+```{r}
+analysis_df |> 
+  pivot_wider(
+    names_from = time, 
+    values_from = mean_outcome
+  ) |> 
+  knitr::kable() ## formats nice table for an Rmd doc 
+```
+names come from time variable, giving you columns for pre and post. The values come from mean outcome column and go into this new column
+
+# bind some rows
+Import each LotR movie table 
+
+```{r}
+fellowship_df = 
+  readxl::read_excel("data_import_examples/LotR_Words.xlsx", range = "B3:D6") |> 
+  mutate(movie = "fellowship")
+
+two_towers_df = 
+  readxl::read_excel("data_import_examples/LotR_Words.xlsx", range = "F3:H6") |> 
+  mutate(movie = "two towers")
+
+return_df = 
+  readxl::read_excel("data_import_examples/LotR_Words.xlsx", range = "J3:L6") |> 
+  mutate(movie = "return of the king")
+```
+Put all of the new dfs together, and do all the tidying afterwards. that way don't have to do three times. 
+
+```{r}
+lotr_df = 
+  bind_rows(fellowship_df, two_towers_df, return_df) |> 
+  janitor::clean_names() |> 
+  relocate(movie) |> 
+  pivot_longer(
+    female:male, 
+    names_to = "gender", 
+    values_to = "words"
+  )
+```
+binding rows stacks rows on top of each other. relocate movie column to far left. pivot longer to tidy data. 
+
+
 
 
 
